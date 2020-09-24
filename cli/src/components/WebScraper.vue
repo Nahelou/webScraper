@@ -4,7 +4,7 @@
       <div class="card-content">
         <div class="field">
           <div class="control">
-            <h2 class="subtitle">Site Open Data</h2>
+            <h2 class="subtitle">Search for datasets</h2>
             <div class="select is-medium">
               <select>
                 <option  v-for="website in openDataWebsites" :key="website._id">{{website.name}}</option>
@@ -13,16 +13,16 @@
           </div>
         </div>
       </div>
-<div class="field is-grouped mx-5">
-  <p class="control is-expanded">
-    <input class="input" type="text" placeholder="Search keyword">
-  </p>
-  <p class="control">
-    <a class="button is-info">
-      Search
-    </a>
-  </p>
-</div>
+        <div class="field is-grouped mx-5 pb-5">
+          <p class="control is-expanded">
+           <input class="input" type="text" placeholder="Search keyword">
+          </p>
+          <p class="control">
+            <a class="button is-info">
+              Search
+            </a>
+          </p>
+      </div>
     </div>
   </div>
 </template>
