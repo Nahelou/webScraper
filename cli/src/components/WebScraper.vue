@@ -1,12 +1,13 @@
 <template>
   <div>
+    <form @submit.prevent="getDatasets">
     <div class="card">
       <div class="card-content">
         <div class="field">
           <div class="control">
             <h2 class="subtitle">Search for datasets</h2>
             <div class="select is-medium">
-              <select>
+              <select id="openDataWebsite">
                 <option  v-for="website in openDataWebsites" :key="website._id" v-bind:value="website.url">{{website.name}}</option>
               </select>
             </div>
@@ -15,15 +16,16 @@
       </div>
         <div class="field is-grouped mx-5 pb-5">
           <p class="control is-expanded">
-           <input class="input" type="text" placeholder="Search keyword">
+           <input id="searchKeyword" class="input" type="text" placeholder="Search keyword">
           </p>
           <p class="control">
-            <a class="button is-info">
+            <button type="submit" class="button is-success mt-5">
               Search
-            </a>
+            </button>
           </p>
       </div>
     </div>
+    </form>
   </div>
 </template>
 
@@ -33,6 +35,7 @@ import { ref } from "@vue/composition-api";
 export default {
   data() {
       return {
+        selected: "OpenDataSoft",
         openDataWebsites: [
       {
         id: 1,
@@ -86,7 +89,7 @@ export default {
       },
       {
         id: 6,
-        name: "Open Data Rennes Metropole",
+        name: "OpenData Rennes Metropole",
         url: "https://data.rennesmetropole.fr/explore/?sort=modified",
         classSearchParent: "ods-result-list odswidget-infinite-scroll-results",
         classSearchChild: "ods-catalog-card",
@@ -98,18 +101,17 @@ export default {
   },
   setup() {
 
-    const bars = ref([]);
-    const API_URL = "http://localhost:4242/api/v1/bars";
+    const webSite = ref('');
 
-    async function getBars() {
-      const response = await fetch(API_URL);
+    async function getDatasets() {
+      const API_URL = openDataWebsite.value;
+      const response = await fetch(API_URL + "&" + searchKeyword.value);
       const json = await response.json();
+      console.log(json);
     }
-
-    getBars();
-
+    
     return {
-      bars,
+      getDatasets,
     };
   },
 };
