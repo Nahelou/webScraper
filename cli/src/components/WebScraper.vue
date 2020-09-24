@@ -7,7 +7,7 @@
             <h2 class="subtitle">Search for datasets</h2>
             <div class="select is-medium">
               <select>
-                <option  v-for="website in openDataWebsites" :key="website._id">{{website.name}}</option>
+                <option  v-for="website in openDataWebsites" :key="website._id" v-bind:value="website.url">{{website.name}}</option>
               </select>
             </div>
           </div>
