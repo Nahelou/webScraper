@@ -2,17 +2,17 @@
   <div class="home">
     <router-link :to="{ name: 'Create' }"
     class="button is-success mx-5 my-5">AJOUTER UN BAR</router-link>
-    <BarsList />
+    <WebScraper />
   </div>
 </template>
 
 <script>
 
-import BarsList from '@/components/BarsList.vue';
+import WebScraper from '@/components/WebScraper.vue';
 
 export default {
   components: {
-    BarsList,
+    WebScraper,
   },
 };
 </script>
