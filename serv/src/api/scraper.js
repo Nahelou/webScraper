@@ -63,15 +63,6 @@ const openDataWebsites = [
     title: "ods-catalog-card__title ng-binding",
     logo: "ods-svginliner__svg-container",
   },
-  {
-    id: 7,
-    name: "Films",
-    url: "https://www.imdb.com/find?s=tt&q=star+wars&ref_=nv_sr_sm",
-    classSearchParent: ".findResult",
-    classSearchChild: "ods-catalog-card",
-    title: "td.result_text a",
-    logo: "td a img",
-  },
 ];
 // Read All
 // router.get("/", (req, res) => {
@@ -95,7 +86,6 @@ router.get("/:id", async (req, res, next) => {
           const datasets = [];
           const $ = cheerio.load(html);
 
-          //console.log(html);
           $(".ods-catalog-card").each((i, el) => {
             console.log(el);
           });
