@@ -1,5 +1,7 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const cheerio = require("cheerio");
+const request = require("request");
 
 const router = express.Router();
 const openDataWebsites = [
@@ -61,29 +63,54 @@ const openDataWebsites = [
     title: "ods-catalog-card__title ng-binding",
     logo: "ods-svginliner__svg-container",
   },
+  {
+    id: 7,
+    name: "Films",
+    url: "https://www.imdb.com/find?s=tt&q=star+wars&ref_=nv_sr_sm",
+    classSearchParent: ".findResult",
+    classSearchChild: "ods-catalog-card",
+    title: "td.result_text a",
+    logo: "td a img",
+  },
 ];
 // Read All
-router.get("/", (req, res) => {
-  res.json(openDataWebsites);
-});
+// router.get("/", (req, res) => {
+//   res.json(openDataWebsites);
+// });
+
+// Read By ID
 router.get("/:id", async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     let selected;
+
     for (i of openDataWebsites) {
       if (i.id == id) selected = i;
     }
 
-    const fetchOpenDataWebSite = await fetch(selected.url)
-      .then((response) => response.text())
-      .catch((error) =>
-        console.log("Got an error on request the website \n", error)
-      );
+    const fetchOpenDataWebSite = await request(
+      selected.url,
+      (error, response, html) => {
+        if (!error && response.statusCode == 200) {
+          const datasets = [];
+          const $ = cheerio.load(html);
+
+          //console.log(html);
+          $(".ods-catalog-card").each((i, el) => {
+            console.log(el);
+          });
+
+          return datasets;
+        }
+      }
+    );
     res.json(fetchOpenDataWebSite);
   } catch (error) {
-    next(error);
+    console.log("Got an error on request the website \n", error());
   }
 });
+
+// Read By ID and Key Word
 
 router.get("/:id/:keyword", async (req, res, next) => {
   try {
