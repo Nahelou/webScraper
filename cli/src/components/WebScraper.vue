@@ -81,7 +81,7 @@ export default {
       console.log(openDataWebsite.value + "    " + searchKeyword.value);
       const openDataUrl = openDataWebsite.value;
       const fetchOpenDataWebSite = await fetch(
-        API_URL + "/" + openDataWebsite.value,
+        API_URL + openDataWebsite.value + "/" + searchKeyword.value,
         {
           method: "GET",
           headers: {
@@ -89,7 +89,7 @@ export default {
           },
         }
       )
-        .then((response) => response.text())
+        .then((response) => console.log(response.text()))
         .catch((error) =>
           console.log("Got an error on request the website \n", error)
         );

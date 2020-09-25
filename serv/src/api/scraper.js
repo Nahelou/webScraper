@@ -2,10 +2,12 @@ const express = require("express");
 const fetch = require("node-fetch");
 
 const router = express.Router();
-const openDataWebsites = [{
+const openDataWebsites = [
+  {
     id: 1,
     name: "OpenDataSoft",
-    url: "https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score",
+    url:
+      "https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score",
     classSearchParent: "ods-catalog-card__wrapper",
     classSearchChild: "ods-catalog-card",
     title: "gotham-book ng-binding",
@@ -34,18 +36,21 @@ const openDataWebsites = [{
     name: "Data World",
     url: "https://data.world/search?context=community&page=1&q=fish&type=data",
     classSearchParent: "PaginatedList__noChromeList___3wrVT list-group",
-    classSearchChild: "Card__card___aSnPt Card__linked___2yUGm Card__chrome___viUm2",
+    classSearchChild:
+      "Card__card___aSnPt Card__linked___2yUGm Card__chrome___viUm2",
     title: "Card__title___2kymQ",
     logo: "result-logo pull-left",
   },
   {
     id: 5,
     name: "OpenData Paris",
-    url: "https://opendata.paris.fr/explore/?disjunctive.theme&disjunctive.publisher&disjunctive.keyword&disjunctive.modified&disjunctive.features&sort=modified",
+    url:
+      "https://opendata.paris.fr/explore/?disjunctive.theme&disjunctive.publisher&disjunctive.keyword&disjunctive.modified&disjunctive.features&sort=modified",
     classSearchParent: "ods-result-list odswidget-infinite-scroll-results",
     classSearchChild: "ods-catalog-card",
     title: "ods-catalog-card__title ng-binding",
-    logo: "ods-svginliner__svg-container ods-svginliner__svg-container--colorless",
+    logo:
+      "ods-svginliner__svg-container ods-svginliner__svg-container--colorless",
   },
   {
     id: 6,
@@ -58,11 +63,10 @@ const openDataWebsites = [{
   },
 ];
 // Read All
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   res.json(openDataWebsites);
 });
-
-router.get("/:id/:keyword", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     let selected;
@@ -71,6 +75,26 @@ router.get("/:id/:keyword", async (req, res, next) => {
     }
 
     const fetchOpenDataWebSite = await fetch(selected.url)
+      .then((response) => response.text())
+      .catch((error) =>
+        console.log("Got an error on request the website \n", error)
+      );
+    res.json(fetchOpenDataWebSite);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/:keyword", async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const kw = req.params.keyword;
+    let selected;
+    for (i of openDataWebsites) {
+      if (i.id == id) selected = i;
+    }
+
+    const fetchOpenDataWebSite = await fetch(selected.url + kw)
       .then((response) => response.text())
       .catch((error) =>
         console.log("Got an error on request the website \n", error)
