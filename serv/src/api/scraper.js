@@ -4,12 +4,10 @@ const cheerio = require("cheerio");
 const request = require("request");
 
 const router = express.Router();
-const openDataWebsites = [
-  {
+const openDataWebsites = [{
     id: 1,
     name: "OpenDataSoft",
-    url:
-      "https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score",
+    url: "https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score",
     classSearchParent: "ods-catalog-card__wrapper",
     classSearchChild: "ods-catalog-card",
     title: "gotham-book ng-binding",
@@ -38,21 +36,18 @@ const openDataWebsites = [
     name: "Data World",
     url: "https://data.world/search?context=community&page=1&q=fish&type=data",
     classSearchParent: "PaginatedList__noChromeList___3wrVT list-group",
-    classSearchChild:
-      "Card__card___aSnPt Card__linked___2yUGm Card__chrome___viUm2",
+    classSearchChild: "Card__card___aSnPt Card__linked___2yUGm Card__chrome___viUm2",
     title: "Card__title___2kymQ",
     logo: "result-logo pull-left",
   },
   {
     id: 5,
     name: "OpenData Paris",
-    url:
-      "https://opendata.paris.fr/explore/?disjunctive.theme&disjunctive.publisher&disjunctive.keyword&disjunctive.modified&disjunctive.features&sort=modified",
+    url: "https://opendata.paris.fr/explore/?disjunctive.theme&disjunctive.publisher&disjunctive.keyword&disjunctive.modified&disjunctive.features&sort=modified",
     classSearchParent: "ods-result-list odswidget-infinite-scroll-results",
     classSearchChild: "ods-catalog-card",
     title: "ods-catalog-card__title ng-binding",
-    logo:
-      "ods-svginliner__svg-container ods-svginliner__svg-container--colorless",
+    logo: "ods-svginliner__svg-container ods-svginliner__svg-container--colorless",
   },
   {
     id: 6,
@@ -86,7 +81,7 @@ router.get("/:id", async (req, res, next) => {
           const datasets = [];
           const $ = cheerio.load(html);
 
-          $(".ods-catalog-card").each((i, el) => {
+          $(".card").each((i, el) => {
             console.log(el);
           });
 
