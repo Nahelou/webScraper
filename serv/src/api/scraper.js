@@ -67,35 +67,36 @@ const openDataWebsites = [{
 // Read By ID
 router.get("/:id", async (req, res, next) => {
   try {
+    console.log("TRY");
     const id = parseInt(req.params.id);
     let selected;
 
     for (i of openDataWebsites) {
       if (i.id == id) selected = i;
     }
-    const datasets = [];
+    // console.log(selected);
 
-    const fetchOpenDataWebSite = await request(
-      selected.url,
-      (error, response, html) => {
-        if (!error && response.statusCode == 200) {
-          const $ = cheerio.load(html);
-
-          $(".card").each((i, el) => {
-            el.next.data.split(',').forEach((e) => {
-                datasets.push(e);
-            })
-            console.log(datasets);
-          });
-
-          return datasets;
+    let fetchOpenDataWebSite = async () => {
+        console.log("fetchOpenDataWebSite");
+        let datasets = []; 
+        request(
+            selected.url,
+            (error, response, html) => {
+                if (!error && response.statusCode == 200) {
+                    const $ = cheerio.load(html);
+                    $("p").each((i, el) => {
+                        datasets.push(el);
+                        console.log(datasets);
+                    });
+                }
+            }
+            );
+            return datasets;
         }
-      }
-    );
-    res.json(fetchOpenDataWebSite);
-  } catch (error) {
-    console.log("Got an error on request the website \n", error());
-  }
+        res.json(fetchOpenDataWebSite());
+    } catch (error) {
+        console.log("Got an error on request the website \n", error);
+    }
 });
 
 // Read By ID and Key Word
