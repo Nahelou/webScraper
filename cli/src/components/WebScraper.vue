@@ -78,7 +78,7 @@ export default {
   setup() {
     const API_URL = "http://localhost:4242/api/v1/scraper/";
     async function getDatasets() {
-      console.log(openDataWebsite.value + "    " + searchKeyword.value);
+      // console.log(openDataWebsite.value + "    " + searchKeyword.value);
       const openDataUrl = openDataWebsite.value;
       const fetchOpenDataWebSite = await fetch(
         API_URL + openDataWebsite.value + "/" + searchKeyword.value,

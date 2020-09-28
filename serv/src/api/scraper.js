@@ -73,16 +73,19 @@ router.get("/:id", async (req, res, next) => {
     for (i of openDataWebsites) {
       if (i.id == id) selected = i;
     }
+    const datasets = [];
 
     const fetchOpenDataWebSite = await request(
       selected.url,
       (error, response, html) => {
         if (!error && response.statusCode == 200) {
-          const datasets = [];
           const $ = cheerio.load(html);
 
           $(".card").each((i, el) => {
-            console.log(el);
+            el.next.data.split(',').forEach((e) => {
+                datasets.push(e);
+            })
+            console.log(datasets);
           });
 
           return datasets;
