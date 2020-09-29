@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
+const scraper = require('./scraper');
+
 require('dotenv').config();
 
 const middlewares = require('./middlewares');
@@ -15,10 +17,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄'
-  });
+app.get('/search/:id', (req, res) => {
+  
+  scraper
+  .searchForDataset(scraper.getSelectedWebSite(req.params.id))
+  .then(datasets => {
+    res.json(datasets)
+  });  
 });
 
 app.use('/api/v1', api);

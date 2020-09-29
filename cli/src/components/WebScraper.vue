@@ -76,7 +76,7 @@ export default {
     };
   },
   setup() {
-    const API_URL = "http://localhost:4242/api/v1/scraper/";
+    const API_URL = "http://localhost:4242/search/";
     async function getDatasets() {
       // console.log(openDataWebsite.value + "    " + searchKeyword.value);
       const openDataUrl = openDataWebsite.value;

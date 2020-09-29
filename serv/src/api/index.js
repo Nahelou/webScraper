@@ -2,7 +2,7 @@ const express = require('express');
 
 const emojis = require('./emojis');
 const bars = require('./bars');
-const scraper = require('./scraper');
+// const scraper = require('./scraper');
 
 const router = express.Router();
 
@@ -14,5 +14,5 @@ router.get('/', (req, res) => {
 
 router.use('/emojis', emojis);
 router.use('/bars', bars);
-router.use('/scraper', scraper);
+// router.use('/scraper', scraper);
 module.exports = router;

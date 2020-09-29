@@ -2,8 +2,8 @@ const express = require("express");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const request = require("request");
+const { response } = require("express");
 
-const router = express.Router();
 const openDataWebsites = [{
     id: 1,
     name: "OpenDataSoft",
@@ -59,66 +59,32 @@ const openDataWebsites = [{
     logo: "ods-svginliner__svg-container",
   },
 ];
-// Read All
-// router.get("/", (req, res) => {
-//   res.json(openDataWebsites);
-// });
 
-// Read By ID
-router.get("/:id", async (req, res, next) => {
-  try {
-    console.log("TRY");
-    const id = parseInt(req.params.id);
-    let selected;
-
-    for (i of openDataWebsites) {
-      if (i.id == id) selected = i;
-    }
-    // console.log(selected);
-
-    let fetchOpenDataWebSite = async () => {
-        console.log("fetchOpenDataWebSite");
-        let datasets = []; 
-        request(
-            selected.url,
-            (error, response, html) => {
-                if (!error && response.statusCode == 200) {
-                    const $ = cheerio.load(html);
-                    $("p").each((i, el) => {
-                        datasets.push(el);
-                        console.log(datasets);
-                    });
-                }
-            }
-            );
-            return datasets;
-        }
-        res.json(fetchOpenDataWebSite());
-    } catch (error) {
-        console.log("Got an error on request the website \n", error);
-    }
-});
-
-// Read By ID and Key Word
-
-router.get("/:id/:keyword", async (req, res, next) => {
-  try {
-    const id = parseInt(req.params.id);
-    const kw = req.params.keyword;
-    let selected;
-    for (i of openDataWebsites) {
-      if (i.id == id) selected = i;
+    function searchForDataset(selected, keyWord) {
+        return fetch(`${selected.url}${keyWord}`)
+        .then(response => response.text())
+        .then(body => {
+            const datasets = [];
+            const $ = cheerio.load(body);
+            $('.card').each((i, el) => {
+                el.next.data.split(",").forEach((e) => {
+                    datasets.push(e);
+                });
+            });
+        return datasets;
+        });
     }
 
-    const fetchOpenDataWebSite = await fetch(selected.url + kw)
-      .then((response) => response.text())
-      .catch((error) =>
-        console.log("Got an error on request the website \n", error)
-      );
-    res.json(fetchOpenDataWebSite);
-  } catch (error) {
-    next(error);
-  }
-});
+    function getSelectedWebSite(id) {
+      let selected;
+      for (i of openDataWebsites) {
+        if (i.id == id) selected = i;
+      }
+      console.log(selected);
+      return selected;
+    }
 
-module.exports = router;
+module.exports = {
+  searchForDataset,
+  getSelectedWebSite,
+};
