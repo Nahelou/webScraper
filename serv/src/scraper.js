@@ -66,10 +66,12 @@ const openDataWebsites = [{
         .then(body => {
             const datasets = [];
             const $ = cheerio.load(body);
-            $('.card').each((i, el) => {
-                el.next.data.split(",").forEach((e) => {
-                    datasets.push(e);
-                });
+            $('.card-body').each((i, el) => {
+              const $element = $(el);
+              const card_title = $element.find('span');
+              const data_link = $element.find('a');
+              const link = data_link.attr('href');
+              datasets.push(link);
             });
         return datasets;
         });
