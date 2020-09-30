@@ -67,14 +67,15 @@ const openDataWebsites = [{
         .then(body => {
             const datasets = [];
             const $ = cheerio.load(body);
-            $('.'+selected.classSearchParent).each((i, el) => {
+            $('.' + selected.classSearchParent).each((i, el) => {
               const $element = $(el);
-              const card_title = $element.find('span');
+              const card_title = $element.find('h4');
               const data_link = $element.find('a');
               const image = $element.find('img').attr('src');
               const link = data_link.attr('href');
               const test = card_title.contents().first().text();
               console.log("Lien : " + link);
+              console.log("Text : " + card_title.text());
               console.log("image : " + image);
               const dataset = {
                 lien : selected.urlData + link,
