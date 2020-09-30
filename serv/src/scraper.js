@@ -26,7 +26,8 @@ const openDataWebsites = [{
     id: 3,
     name: "DataGouv",
     url: "https://www.data.gouv.fr/fr/search/?q=",
-    classSearchParent: "search-results",
+    urlData: "https://www.data.gouv.fr",
+    classSearchParent: "search-result",
     classSearchChild: "search-result dataset-result",
     title: "result-title ellipsis",
     logo: "result-logo pull-left",
@@ -66,12 +67,20 @@ const openDataWebsites = [{
         .then(body => {
             const datasets = [];
             const $ = cheerio.load(body);
-            $('.card-body').each((i, el) => {
+            $('.'+selected.classSearchParent).each((i, el) => {
               const $element = $(el);
               const card_title = $element.find('span');
               const data_link = $element.find('a');
+              const image = $element.find('img').attr('src');
               const link = data_link.attr('href');
-              datasets.push(link);
+              const test = card_title.contents().first().text();
+              console.log("Lien : " + link);
+              console.log("image : " + image);
+              const dataset = {
+                lien : selected.urlData + link,
+                img : image,
+              }
+              datasets.push(dataset);
             });
         return datasets;
         });

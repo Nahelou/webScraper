@@ -18,9 +18,16 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/search/:id', (req, res) => {
-  
   scraper
   .searchForDataset(scraper.getSelectedWebSite(req.params.id))
+  .then(datasets => {
+    res.json(datasets)
+  });  
+});
+
+app.get('/search/:id/:keyWord', (req, res) => {
+  scraper
+  .searchForDataset(scraper.getSelectedWebSite(req.params.id), req.params.keyWord)
   .then(datasets => {
     res.json(datasets)
   });  
