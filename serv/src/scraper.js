@@ -2,16 +2,19 @@ const express = require("express");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const request = require("request");
-const { response } = require("express");
+const {
+  response,
+  text
+} = require("express");
 
 const openDataWebsites = [{
     id: 1,
     name: "OpenDataSoft",
     url: "https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score",
-    classSearchParent: "ods-catalog-card__wrapper",
-    classSearchChild: "ods-catalog-card",
-    title: "gotham-book ng-binding",
-    logo: "centralstore-catalog-card__portal-icon",
+    classSearchParent: "ods-catalog-card",
+    classSearchChild: "ods-catalog-card-title",
+    title: "h2",
+    logo: "svg",
   },
   {
     id: 2,
@@ -27,10 +30,10 @@ const openDataWebsites = [{
     name: "DataGouv",
     url: "https://www.data.gouv.fr/fr/search/?q=",
     urlData: "https://www.data.gouv.fr",
-    classSearchParent: "search-result",
+    classSearchParent: ".search-result",
     classSearchChild: "search-result dataset-result",
-    title: "result-title ellipsis",
-    logo: "result-logo pull-left",
+    title: "h4",
+    logo: "img",
   },
   {
     id: 4,
@@ -45,56 +48,70 @@ const openDataWebsites = [{
     id: 5,
     name: "OpenData Paris",
     url: "https://opendata.paris.fr/explore/?disjunctive.theme&disjunctive.publisher&disjunctive.keyword&disjunctive.modified&disjunctive.features&sort=modified",
-    classSearchParent: "ods-result-list odswidget-infinite-scroll-results",
+    classSearchParent: "ods-catalog-card",
     classSearchChild: "ods-catalog-card",
-    title: "ods-catalog-card__title ng-binding",
+    title: "h2",
     logo: "ods-svginliner__svg-container ods-svginliner__svg-container--colorless",
   },
   {
     id: 6,
     name: "OpenData Rennes Metropole",
     url: "https://data.rennesmetropole.fr/explore/?sort=modified",
-    classSearchParent: "ods-result-list odswidget-infinite-scroll-results",
+    classSearchParent: "ods-catalog-card  h2",
     classSearchChild: "ods-catalog-card",
-    title: "ods-catalog-card__title ng-binding",
-    logo: "ods-svginliner__svg-container",
+    title: "h2",
+    logo: "svg",
+  },
+  {
+    id: 7,
+    name: "GeneaNet",
+    url: "https://en.geneanet.org/fonds/individus/?size=50&sexe=&ignore_each_patronyme=&prenom=&prenom_operateur=or&ignore_each_prenom=&place__0__=&zonegeo__0__=&country__0__=&region__0__=&subregion__0__=&place__1__=&zonegeo__1__=&country__1__=&region__1__=&subregion__1__=&place__2__=&zonegeo__2__=&country__2__=&region__2__=&subregion__2__=&place__3__=&zonegeo__3__=&country__3__=&region__3__=&subregion__3__=&place__4__=&zonegeo__4__=&country__4__=&region__4__=&subregion__4__=&type_periode=between&from=&to=&exact_month=&exact_day=&exact_year=&go=1&nom=",
+    classSearchParent: ".ligne-resultat",
+    classSearchChild: ".xlarge-4",
+    title: "span",
+    logo: "svg",
   },
 ];
 
-    function searchForDataset(selected, keyWord) {
-        return fetch(`${selected.url}${keyWord}`)
-        .then(response => response.text())
-        .then(body => {
-            const datasets = [];
-            const $ = cheerio.load(body);
-            $('.' + selected.classSearchParent).each((i, el) => {
-              const $element = $(el);
-              const card_title = $element.find('h4');
-              const data_link = $element.find('a');
-              const image = $element.find('img').attr('src');
-              const link = data_link.attr('href');
-              const test = card_title.contents().first().text();
-              console.log("Lien : " + link);
-              console.log("Text : " + card_title.text());
-              console.log("image : " + image);
-              const dataset = {
-                lien : selected.urlData + link,
-                img : image,
-              }
-              datasets.push(dataset);
-            });
-        return datasets;
-        });
-    }
+function searchForDataset(selected, keyWord) {
+  return fetch(`${selected.url}${keyWord}`)
+    .then(response => response.text())
+    .then(body => {
+      const datasets = [];
+      const $ = cheerio.load(body);
+      // console.log($.text());
+      $(selected.classSearchParent).each((i, el) => {
+        const $element = $(el);
+        const card_title = $element.find('.xlarge-5 ' + selected.title);
+        const data_link = $element.find('a');
+        const image = $element.find(selected.logo).attr('src');
+        const link = data_link.attr('href');
+        const test = $element.find(selected.classSearchChild).text();
+        // console.log("Element : " + $element);
+        console.log("Lien : " + link);
+        console.log("Text : " + card_title.text().replace('├ë', 'é').replace('├¿', 'è'));
+        console.log("image : " + image);
+        console.log("Text 2 : " + test);
 
-    function getSelectedWebSite(id) {
-      let selected;
-      for (i of openDataWebsites) {
-        if (i.id == id) selected = i;
-      }
-      console.log(selected);
-      return selected;
-    }
+        const dataset = {
+          text: card_title.text(),
+          lien: selected.urlData + link,
+          img: image,
+        }
+        datasets.push(dataset);
+      });
+      return datasets;
+    });
+}
+
+function getSelectedWebSite(id) {
+  let selected;
+  for (i of openDataWebsites) {
+    if (i.id == id) selected = i;
+  }
+  console.log(selected);
+  return selected;
+}
 
 module.exports = {
   searchForDataset,

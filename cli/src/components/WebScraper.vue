@@ -72,13 +72,17 @@ export default {
           id: 6,
           name: "OpenData Rennes Metropole",
         },
+        {
+          id: 7,
+          name: "GeneaNet",
+        },
       ],
+      datasets: [],
     };
   },
   setup() {
     const API_URL = "http://localhost:4242/search/";
     async function getDatasets() {
-      // console.log(openDataWebsite.value + "    " + searchKeyword.value);
       const openDataUrl = openDataWebsite.value;
       const fetchOpenDataWebSite = await fetch(
         API_URL + openDataWebsite.value + "/" + searchKeyword.value,
