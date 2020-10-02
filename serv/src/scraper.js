@@ -57,7 +57,7 @@ const openDataWebsites = [{
     id: 6,
     name: "OpenData Rennes Metropole",
     url: "https://data.rennesmetropole.fr/explore/?sort=modified",
-    classSearchParent: "ods-catalog-card  h2",
+    classSearchParent: ".ods-catalog-card__body a",
     classSearchChild: "ods-catalog-card",
     title: "h2",
     logo: "svg",
@@ -68,7 +68,7 @@ const openDataWebsites = [{
     url: "https://en.geneanet.org/fonds/individus/?size=50&sexe=&ignore_each_patronyme=&prenom=&prenom_operateur=or&ignore_each_prenom=&place__0__=&zonegeo__0__=&country__0__=&region__0__=&subregion__0__=&place__1__=&zonegeo__1__=&country__1__=&region__1__=&subregion__1__=&place__2__=&zonegeo__2__=&country__2__=&region__2__=&subregion__2__=&place__3__=&zonegeo__3__=&country__3__=&region__3__=&subregion__3__=&place__4__=&zonegeo__4__=&country__4__=&region__4__=&subregion__4__=&type_periode=between&from=&to=&exact_month=&exact_day=&exact_year=&go=1&nom=",
     classSearchParent: ".ligne-resultat",
     classSearchChild: ".xlarge-4",
-    title: "span",
+    title: ".xlarge-5 span",
     logo: "svg",
   },
 ];
@@ -79,26 +79,29 @@ function searchForDataset(selected, keyWord) {
     .then(body => {
       const datasets = [];
       const $ = cheerio.load(body);
+      let id = 0;
       // console.log($.text());
       $(selected.classSearchParent).each((i, el) => {
         const $element = $(el);
-        const card_title = $element.find('.xlarge-5 ' + selected.title);
+        const card_title = $element.find(selected.title);
         const data_link = $element.find('a');
         const image = $element.find(selected.logo).attr('src');
         const link = data_link.attr('href');
         const test = $element.find(selected.classSearchChild).text();
         // console.log("Element : " + $element);
         console.log("Lien : " + link);
-        console.log("Text : " + card_title.text().replace('├ë', 'é').replace('├¿', 'è'));
+        console.log("Text : " + card_title.text());
         console.log("image : " + image);
         console.log("Text 2 : " + test);
 
         const dataset = {
+          id: id,
           text: card_title.text(),
-          lien: selected.urlData + link,
+          url: selected.urlData + link,
           img: image,
         }
         datasets.push(dataset);
+        id = id + 1;
       });
       return datasets;
     });

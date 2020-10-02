@@ -1,7 +1,7 @@
 <template>
   <div>
-    <form @submit.prevent="getDatasets">
-      <div class="card">
+    <div class="card">
+      <form @submit.prevent="getDatasets">
         <div class="card-content">
           <div class="field">
             <div class="control">
@@ -35,8 +35,19 @@
             </button>
           </p>
         </div>
+      </form>
+    </div>
+    <div class="card" v-for="dataset in datasets" :key="dataset.id">
+      <div class="card-content">
+        <div class="field">
+          <div class="control">
+            <h2 class="subtitle">
+              <a v-bind:href="dataset.url">{{ dataset.text }}</a>
+            </h2>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -93,7 +104,13 @@ export default {
           },
         }
       )
-        .then((response) => console.log(response.text()))
+        .then((response) => {
+          return response.json();
+        })
+        .then((d) => {
+          console.log(d);
+          this.datasets = d;
+        })
         .catch((error) =>
           console.log("Got an error on request the website \n", error)
         );
