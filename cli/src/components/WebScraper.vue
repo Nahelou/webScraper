@@ -40,6 +40,9 @@
     <div class="card" v-for="dataset in datasets" :key="dataset.id">
       <div class="card-content">
         <div class="field">
+          <figure class="image is-48x48" v-if="dataset.img">
+            <img v-bind:src="dataset.img" />
+          </figure>
           <div class="control">
             <h2 class="subtitle">
               <a v-bind:href="dataset.url">{{ dataset.text }}</a>
