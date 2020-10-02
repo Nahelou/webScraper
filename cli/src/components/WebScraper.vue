@@ -93,6 +93,10 @@ export default {
           id: 7,
           name: "GeneaNet",
         },
+        {
+          id: 8,
+          name: "GeoBretagne",
+        },
       ],
       datasets: [],
     };

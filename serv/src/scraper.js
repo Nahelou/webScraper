@@ -71,6 +71,16 @@ const openDataWebsites = [{
     title: ".xlarge-5 span",
     logo: "svg",
   },
+  {
+    id: 8,
+    name: "GeoBretagne",
+    url: "https://geobretagne.fr/geonetwork/srv/fre/catalog.search#/search?resultType=details&sortBy=relevance&fast=index&_content_type=json&from=1&to=80&any=",
+    urlData: "https://geobretagne.fr/geonetwork/srv/fre/catalog.search",
+    classSearchParent: "a",
+    classSearchChild: ".xlarge-4",
+    title: "a",
+    logo: "svg",
+  },
 ];
 
 function searchForDataset(selected, keyWord) {
