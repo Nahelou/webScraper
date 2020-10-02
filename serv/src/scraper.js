@@ -87,18 +87,19 @@ function searchForDataset(selected, keyWord) {
         const data_link = $element.find('a');
         const image = $element.find(selected.logo).attr('src');
         const link = data_link.attr('href');
-        const test = $element.find(selected.classSearchChild).text();
+        const decription = $element.find(selected.classSearchChild).text();
         // console.log("Element : " + $element);
         console.log("Lien : " + link);
         console.log("Text : " + card_title.text());
         console.log("image : " + image);
-        console.log("Text 2 : " + test);
+        console.log("Text 2 : " + decription);
 
         const dataset = {
           id: id,
           text: card_title.text(),
           url: selected.urlData + link,
           img: image,
+          description: decription,
         }
         datasets.push(dataset);
         id = id + 1;

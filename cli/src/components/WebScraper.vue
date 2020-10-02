@@ -45,8 +45,11 @@
           </figure>
           <div class="control">
             <h2 class="subtitle">
-              <a v-bind:href="dataset.url">{{ dataset.text }}</a>
+              <a v-on:click="openInNewTab(dataset.url)">{{ dataset.text }}</a>
             </h2>
+            <h4 class="subtitle">
+              <p v-if="dataset.description">{{ dataset.description }}</p>
+            </h4>
           </div>
         </div>
       </div>
@@ -118,9 +121,14 @@ export default {
           console.log("Got an error on request the website \n", error)
         );
     }
+    function openInNewTab(url) {
+      const win = window.open(url, "_blank");
+      win.focus();
+    }
 
     return {
       getDatasets,
+      openInNewTab,
     };
   },
 };
