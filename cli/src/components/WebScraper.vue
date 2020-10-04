@@ -90,7 +90,6 @@ export default {
           return response.json();
         })
         .then((d) => {
-          console.log(d);
           this.datasets = d;
         })
         .catch((error) =>
