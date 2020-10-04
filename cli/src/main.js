@@ -3,12 +3,10 @@
 import Vue from 'vue';
 import VueCompositionAPI from '@vue/composition-api';
 import hooks from '@u3u/vue-hooks';
-import VueMapbox from 'vue-mapbox';
-import Mapbox from 'mapbox-gl';
+
 
 Vue.use(hooks);
 Vue.use(VueCompositionAPI);
-Vue.use(VueMapbox, { mapboxgl: Mapbox });
 
 import 'bulma/css/bulma.css';
 import App from './App.vue';

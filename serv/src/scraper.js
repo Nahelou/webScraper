@@ -20,10 +20,10 @@ const openDataWebsites = [{
     id: 2,
     name: "Kaggle",
     url: "https://www.kaggle.com/datasets?search=",
-    classSearchParent: "sc-pQFHc biYjWK",
-    classSearchChild: "sc-oVcRo sc-qYUgX eZPPVU sc-pkryX eJxnfX",
-    title: "sc-Axmtr sc-fzoiQi sc-oTDcV fBazUz",
-    logo: "sc-pJjas gWUsWA",
+    classSearchParent: "p",
+    classSearchChild: ".sc-pjUgp",
+    title: "h6",
+    logo: "img",
   },
   {
     id: 3,
@@ -57,7 +57,7 @@ const openDataWebsites = [{
     id: 6,
     name: "OpenData Rennes Metropole",
     url: "https://data.rennesmetropole.fr/explore/?sort=modified",
-    classSearchParent: ".ods-catalog-card__body a",
+    classSearchParent: "ods-catalog-card",
     classSearchChild: "ods-catalog-card",
     title: "h2",
     logo: "svg",
@@ -74,7 +74,7 @@ const openDataWebsites = [{
   {
     id: 8,
     name: "GeoBretagne",
-    url: "https://geobretagne.fr/geonetwork/srv/fre/catalog.search#/search?resultType=details&sortBy=relevance&fast=index&_content_type=json&from=1&to=80&any=",
+    url: "https://geobretagne.fr/geonetwork/srv/fre/catalog.search#/search?resultType=details&sortBy=relevance&fast=index&_content_type=json&from=1&to=10&any=",
     urlData: "https://geobretagne.fr/geonetwork/srv/fre/catalog.search",
     classSearchParent: "a",
     classSearchChild: ".xlarge-4",
@@ -90,7 +90,7 @@ function searchForDataset(selected, keyWord) {
       const datasets = [];
       const $ = cheerio.load(body);
       let id = 0;
-      // console.log($.text());
+      console.log($.text());
       $(selected.classSearchParent).each((i, el) => {
         const $element = $(el);
         const card_title = $element.find(selected.title);
