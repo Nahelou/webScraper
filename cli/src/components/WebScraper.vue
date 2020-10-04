@@ -66,36 +66,8 @@ export default {
       selected: "OpenDataSoft",
       openDataWebsites: [
         {
-          id: 1,
-          name: "OpenDataSoft",
-        },
-        {
-          id: 2,
-          name: "Kaggle",
-        },
-        {
           id: 3,
           name: "DataGouv",
-        },
-        {
-          id: 4,
-          name: "Data World",
-        },
-        {
-          id: 5,
-          name: "OpenData Paris",
-        },
-        {
-          id: 6,
-          name: "OpenData Rennes Metropole",
-        },
-        {
-          id: 7,
-          name: "GeneaNet",
-        },
-        {
-          id: 8,
-          name: "GeoBretagne",
         },
       ],
       datasets: [],
